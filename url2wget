@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Prompt the user to enter the URLs
+echo "Enter a list of URLs (one per line, press 'q' to quit):"
+urls=()
+while read -r url; do
+    if [[ $url == "q" ]]; then
+        break
+    fi
+    urls+=("$url")
+done
+
+# Download URLs using wget
+for url in "${urls[@]}"; do
+    wget "$url"
+done
+
+# USE PANDOC TO CONVERT EACH FILE IN DIR WITH HTML TO TEXT

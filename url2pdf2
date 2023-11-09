@@ -1,0 +1,19 @@
+#!/bin/bash
+
+urls=()
+
+# Prompt the user to enter the URLs
+while true; do
+    read -p "Enter a URL (or 'q' to quit): " url
+    if [[ $url == "q" ]]; then
+        break
+    fi
+    urls+=("$url")
+done
+
+# Convert URLs to PDF
+for url in "${urls[@]}"; do
+    output_file=$(echo "$url" | sed -e 's#https://##' -e 's#http://##' -e 's#/#_#g').pdf
+    wkhtmltopdf "$url" "$output_file"
+    echo "Converted $url to $output_file"
+done

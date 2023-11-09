@@ -1,0 +1,34 @@
+import pycurl
+from io import BytesIO
+
+# Set the URL you want to fetch
+url = 'https://scrapfly.io/blog/html-table-to-xlsx-python-beautifulsoup/'
+
+# Create a new Curl object
+curl = pycurl.Curl()
+
+# Set the URL and other options
+curl.setopt(pycurl.URL, url)
+# Follow redirects
+curl.setopt(pycurl.FOLLOWLOCATION, 1)
+# Set the user agent
+curl.setopt(pycurl.USERAGENT, 'Mozilla/5.0')
+
+# Create a buffer to store the response and add it as result target
+buffer = BytesIO()
+curl.setopt(pycurl.WRITEFUNCTION, buffer.write)
+
+# Perform the request
+curl.perform()
+
+# Get the response code and content
+response_code = curl.getinfo(pycurl.RESPONSE_CODE)
+response_content = buffer.getvalue().decode('UTF-8')
+
+# Print the response
+print(f'Response code: {response_code}')
+print(f'Response content: {response_content}')
+
+# Clean up
+curl.close()
+buffer.close()
